@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Fetching Data</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<script type="text/javascript" src="../js/jquery.js"></script>
+</head>
+<body>
+
+<h2>Weather</h2>
+<hr/>
+
+<div id="output" class="container-fluid">
+
+	<form class="form subform pb-5" action="" method="POST">
+	<div class="form-group">
+		<label>Place Name</label>
+		<input type="text" class="form-control place-name" placeholder="Place Name">
+	</div>
+	<button type="submit" class="btn btn-success">Submit</button>
+	</form>
+
+	<div class="error"></div>
+
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Place</th>
+				<th>Max Temp</th>
+				<th>Min Temp</th>
+				<th>RainFall (24 hrs)</th>
+			</tr>
+		</thead>
+		<tbody id="replacable">
+		</tbody>
+	</table>
+
+</div>
+
+<script type="text/javascript">
+	$('.subform').on('submit', function(e) {
+		e.preventDefault();
+		var place = $('.place-name').val();
+	    $.ajax({
+	        url: "https://jcloudia.com/api/weather?place="+place,
+	        //possible urls
+	        //
+	        success: function(data) {
+	        	if(data.status==404) {
+	        		$('.error').html(JSON.stringify(data,null,4));
+	        	} else {
+	        		$('.error').html('');
+	        		var ele = document.createElement('tr');
+	        		ele.innerHTML = '<td>1'+"</td><td class='text-capitalize'>"+data.place+'</td><td>'+data.max_temp+'</td><td>'+data.min_temp+'</td><td>'+data.rainfall+'</td>';
+	        		var mainDiv = document.getElementById('replacable');
+	        		mainDiv.appendChild(ele);
+	        	}
+	        }
+	    });
+	});
+</script>
+
+</body>
+</html>

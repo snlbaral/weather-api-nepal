@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Fetching Data</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<script type="text/javascript" src="../js/jquery.js"></script>
+</head>
+<body>
+
+<h2>Weather</h2>
+<hr/>
+
+<div id="output">
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Place</th>
+				<th>Max Temp</th>
+				<th>Min Temp</th>
+				<th>RainFall (24 hrs)</th>
+			</tr>
+		</thead>
+		<tbody id="replacable">
+		</tbody>
+	</table>
+
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+	    $.ajax({
+	        url: "https://jcloudia.com/api/weather",
+	        //possible urls
+	        //
+	        success: function(data) {
+	        	//var data = JSON.parse(data);
+	        	var result = data.length;
+
+	        	//looping through the data
+	        	for(var i=0;i<result;i++) {
+	        		var ele = document.createElement('tr');
+	        		ele.innerHTML = '<td>'+(i+1)+"</td><td class='text-capitalize'>"+data[i].place+'</td><td>'+data[i].max_temp+'</td><td>'+data[i].min_temp+'</td><td>'+data[i].rainfall+'</td>';
+	        		var mainDiv = document.getElementById('replacable');
+	        		mainDiv.appendChild(ele);
+	        	}
+	        } 
+	    });
+	});
+</script>
+
+</body>
+</html>
